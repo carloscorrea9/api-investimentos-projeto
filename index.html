@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sensedia Invest - Estágio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- CABEÇALHO -->
+    <header>
+      <h1>📈 Sensedia Invest</h1>
+      <p>API de Investimentos - Projeto para Estágio</p>
+    </header>
+
+    <!-- MENU -->
+    <nav class="tabs">
+      <button class="tab-btn active" onclick="showTab('home')">🏠 Home</button>
+      <button class="tab-btn" onclick="showTab('register')">👤 Cadastro</button>
+      <button class="tab-btn" onclick="showTab('login')">🔐 Login</button>
+      <button class="tab-btn" onclick="showTab('investimentos')">💰 Investir</button>
+      <button class="tab-btn" onclick="showTab('simular')">📊 Simular</button>
+    </nav>
+
+    <!-- MENSAGENS -->
+    <div id="message" class="message"></div>
+
+    <!-- CONTEÚDO DAS ABAS -->
+    <div class="content">
+      <!-- ABA 1: HOME -->
+      <div id="home" class="tab-content active">
+        <div class="card">
+          <h2>Bem-vindo à API de Investimentos</h2>
+          <p><strong>Projeto desenvolvido para o processo de estágio da Sensedia</strong></p>
+
+          <div class="features">
+            <div class="feature">
+              <h3>🔐 Segurança</h3>
+              <p>Autenticação com Hash SHA-256</p>
+            </div>
+            <div class="feature">
+              <h3>📊 Regras de Negócio</h3>
+              <p>Verificação de perfil e cálculo de IR</p>
+            </div>
+            <div class="feature">
+              <h3>🚀 Tecnologias</h3>
+              <p>Python, Flask, SQLite</p>
+            </div>
+          </div>
+
+          <h3>Endpoints da API:</h3>
+          <div class="endpoints">
+            <div class="endpoint">
+              <code>POST /api/register</code>
+              <span>Cadastrar usuário</span>
+            </div>
+            <div class="endpoint">
+              <code>POST /api/login</code>
+              <span>Autenticar</span>
+            </div>
+            <div class="endpoint">
+              <code>GET /api/investimentos</code>
+              <span>Listar investimentos</span>
+            </div>
+            <div class="endpoint">
+              <code>POST /api/investir</code>
+              <span>Realizar investimento</span>
+            </div>
+            <div class="endpoint">
+              <code>POST /api/simular</code>
+              <span>Simular resgate</span>
+            </div>
+          </div>
+
+          <button onclick="testarAPI()" class="btn">✅ Testar API</button>
+        </div>
+      </div>
+
+      <!-- ABA 2: CADASTRO -->
+      <div id="register" class="tab-content">
+        <div class="card">
+          <h2>👤 Criar Conta</h2>
+          <form id="registerForm">
+            <input type="text" id="nome" placeholder="Nome completo" required>
+            <input type="email" id="email" placeholder="E-mail" required>
+            <input type="password" id="senha" placeholder="Senha" required>
+
+            <label>Perfil de Investidor:</label>
+            <select id="perfil" required>
+              <option value="conservador">Conservador</option>
+              <option value="moderado">Moderado</option>
+              <option value="arrojado">Arrojado</option>
+            </select>
+
+            <button type="submit" class="btn">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ABA 3: LOGIN -->
+      <div id="login" class="tab-content">
+        <div class="card">
+          <h2>🔐 Login</h2>
+          <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="E-mail" required>
+            <input type="password" id="loginSenha" placeholder="Senha" required>
+            <button type="submit" class="btn">Entrar</button>
+          </form>
+
+          <div id="userInfo" style="display: none; margin-top: 20px;">
+            <h3>✅ Logado como: <span id="userName"></span></h3>
+            <p>Perfil: <span id="userPerfil"></span></p>
+            <p>ID: <span id="userId"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 4: INVESTIMENTOS -->
+      <div id="investimentos" class="tab-content">
+        <div class="card">
+          <h2>💰 Investimentos Disponíveis</h2>
+
+          <div class="filters">
+            <button onclick="carregarInvestimentos()" class="btn">Todos</button>
+            <button onclick="carregarInvestimentos('renda_fixa')" class="btn">🏦 Renda Fixa</button>
+            <button onclick="carregarInvestimentos('fundo')" class="btn">🏢 Fundos</button>
+          </div>
+
+          <div id="investimentosList"></div>
+
+          <h3 style="margin-top: 30px;">📈 Meus Investimentos</h3>
+          <button onclick="carregarMeusInvestimentos()" class="btn">Ver meus investimentos</button>
+          <div id="meusInvestimentosList"></div>
+        </div>
+      </div>
+
+      <!-- ABA 5: SIMULAR -->
+      <div id="simular" class="tab-content">
+        <div class="card">
+          <h2>📊 Simular Resgate</h2>
+          <p><strong>Teste as regras de negócio:</strong></p>
+          <ul>
+            <li>❌ Não pode resgatar antes de 30 dias</li>
+            <li>💰 IR progressivo: 5%, 10%, 20%</li>
+          </ul>
+
+          <form id="simularForm">
+            <input type="number" id="simValor" placeholder="Valor (R$)" value="1000" required>
+            <input type="number" id="simRentabilidade" placeholder="Rentabilidade %" value="12.5" step="0.1" required>
+            <input type="number" id="simDias" placeholder="Dias investidos" value="60" required>
+            <input type="number" id="simVencimento" placeholder="Dias para vencimento" value="180" required>
+
+            <button type="submit" class="btn">Simular Resgate</button>
+          </form>
+
+          <div id="resultadoSimulacao" style="margin-top: 20px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer>
+      <p>Projeto para vaga de estágio - Sensedia | Python + Flask + SQLite</p>
+    </footer>
+  </div>
+
+  <!-- MODAL PARA INVESTIR -->
+  <div id="investModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal()">&times;</span>
+      <h3>💰 Realizar Investimento</h3>
+      <div id="modalInfo"></div>
+      <input type="number" id="valorInvestimento" placeholder="Valor (R$)" min="100" required>
+      <button onclick="confirmarInvestimento()" class="btn">Confirmar</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
