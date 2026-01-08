@@ -140,13 +140,13 @@ def simular():
 def health():
     return jsonify({
         "status": "online",
-        "projeto": "Sensedia Invest - Estágio",
+        "projeto": "Bank Invest - Projeto",
         "tecnologias": ["Python", "Flask", "SQLite", "SHA-256"]
     })
 
 if __name__ == '__main__':
     print("=" * 50)
-    print("📈 SENSEDIA INVEST - API DE ESTÁGIO")
+    print("📈 BANK INVEST - API DE INVESTIMENTOS")
     print("=" * 50)
     print("✅ Banco de dados: investimentos.db")
     print("🔐 Autenticação: SHA-256")
